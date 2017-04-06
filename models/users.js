@@ -30,4 +30,12 @@ Users.statics.create = function create(req, callback) {
     users.save(callback);
 }
 
+Users.statics.update = function update(req, callback) {
+    this.findOneAndUpdate({ _id: req.body.id }, {
+        firstname: req.body.firstname,
+        username: req.body.Username,
+        lastname: req.body.lastname
+    }, callback);
+}
+
 module.exports = mongoose.model('users', Users);

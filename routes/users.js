@@ -3,9 +3,8 @@ var router = express.Router();
 var usersController = require('../controllers/users.controller');
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
-});
+
+router.get('/', usersController.getAll);
 
 router.get('/signup', function (req, res, next) {
   res.render('signup', {
@@ -20,5 +19,8 @@ router.get('/signup', function (req, res, next) {
 
 router.post('/signup/post', usersController.create);
 router.get('/find/:id', usersController.getOne);
+router.get('/edit/:id', usersController.edit);
+router.post('/update', usersController.update);
+
 
 module.exports = router;
