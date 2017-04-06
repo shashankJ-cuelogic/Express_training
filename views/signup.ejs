@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title><%= title%></title>
+            <link rel='stylesheet' href='/stylesheets/style.css' />
+        </head>
+        <body>
+            <% if (messages) { %>
+                <p><%= messages %></p>
+            <% } %>
+            <form action = "/users/signup/post" method = "POST">
+                <h1><%= title%></h1>
+                <p>Username:&nbsp;<input type="text" name="Username" id="Username" value="<%= username %>"/></p>
+                <p>Password:&nbsp;<input type="password" name="Password" id="Password" value="<%= password %>"/></p>
+                <p>First Name:&nbsp;<input type="text" name="firstname" id="firstname" value="<%= firstname %>"/></p>
+                <p>Last Name:&nbsp;<input type="text" name="lastname" id="lastname" value="<%= lastname %>"/></p>
+                <p><input type = "submit" value = "Submit"></p>
+            </form>
+        </body>
+    </html>
