@@ -38,4 +38,17 @@ Users.statics.update = function update(req, callback) {
     }, callback);
 }
 
+
+Users.statics.getUserByUsername = function(username, callback){
+	var query = {username: username};
+	this.findOne(query, callback);
+}
+
+Users.statics.comparePassword = function(candidatePassword, hash, callback){
+	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
+    	if(err) throw err;
+    	callback(null, isMatch);
+	});
+}
+
 module.exports = mongoose.model('users', Users);

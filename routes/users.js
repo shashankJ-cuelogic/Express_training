@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var usersController = require('../controllers/users.controller');
-
+var auth=require('../auth');
 /* GET users listing. */
 
-router.get('/', usersController.getAll);
+router.get('/',auth.isAuthenticated, usersController.getAll);
 
-router.get('/signup', function (req, res, next) {
+router.get('/signup',auth.isAuthenticated, function (req, res, next) {
   res.render('signup', {
     title: 'Sign-up',
     password: '',
@@ -17,10 +17,10 @@ router.get('/signup', function (req, res, next) {
   });
 });
 
-router.post('/signup/post', usersController.create);
-router.get('/find/:id', usersController.getOne);
-router.get('/edit/:id', usersController.edit);
-router.post('/update', usersController.update);
+router.post('/signup/post',auth.isAuthenticated, usersController.create);
+router.get('/find/:id',auth.isAuthenticated, usersController.getOne);
+router.get('/edit/:id',auth.isAuthenticated, usersController.edit);
+router.post('/update',auth.isAuthenticated, usersController.update);
 
 
 module.exports = router;
