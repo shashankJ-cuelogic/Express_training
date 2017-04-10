@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
-var indexController = require('../controllers/index.controller');
+//var indexController = require('../controllers/index.controller');
 var passport = require('passport');
 var User = require('../models/users');
 var LocalStrategy = require('passport-local').Strategy;
-var auth=require('../auth');
+var auth = require('../auth');
+var userActivity = require('../models/useractivity');
+var ip = require('ip');
+
 
 router.post('/login', passport.authenticate('local', {
   failureRedirect: '/login',
@@ -23,6 +26,16 @@ passport.use(new LocalStrategy(
       User.comparePassword(password, user.password, function (err, isMatch) {
         if (err) throw err;
         if (isMatch) {
+
+          userActivity.create({
+            IP: ip.address(),
+            UA: user._id
+          }, function (err) {
+            if (err) console.log(err);
+          });
+          userActivity.find({},function(err,result){
+            console.log(result);
+          });
           return done(null, user);
         } else {
           return done(null, false, { message: 'Invalid password' });
@@ -33,7 +46,7 @@ passport.use(new LocalStrategy(
 
 
 /* GET home page. */
-router.get('/',auth.isAuthenticated, function (req, res, next) {
+router.get('/', auth.isAuthenticated, function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
@@ -43,7 +56,7 @@ router.get('/login', function (req, res, next) {
 
 router.get('/logout', function (req, res, next) {
   req.session.destroy(function (err) {
-    res.redirect('/login'); 
+    res.redirect('/login');
   });
 });
 

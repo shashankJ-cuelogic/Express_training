@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/local_demo');
+
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -39,12 +38,12 @@ Users.statics.update = function update(req, callback) {
 }
 
 
-Users.statics.getUserByUsername = function(username, callback){
+Users.statics.getUserByUsername = function getUserByUsername(username, callback){
 	var query = {username: username};
 	this.findOne(query, callback);
 }
 
-Users.statics.comparePassword = function(candidatePassword, hash, callback){
+Users.statics.comparePassword = function comparePassword(candidatePassword, hash, callback){
 	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {
     	if(err) throw err;
     	callback(null, isMatch);

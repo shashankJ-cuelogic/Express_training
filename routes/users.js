@@ -21,6 +21,6 @@ router.post('/signup/post',auth.isAuthenticated, usersController.create);
 router.get('/find/:id',auth.isAuthenticated, usersController.getOne);
 router.get('/edit/:id',auth.isAuthenticated, usersController.edit);
 router.post('/update',auth.isAuthenticated, usersController.update);
-
+router.get('/logs',usersController.logs);
 
 module.exports = router;

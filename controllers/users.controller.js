@@ -1,4 +1,5 @@
 var userModel = require('../models/users');
+var userActivity = require('../models/useractivity');
 
 exports.create = function (req, res) {
     console.log('---------------------------Insert data----------------------');
@@ -59,4 +60,30 @@ exports.update = function (req, res) {
     });
 
     console.log('-----update-----------------');
+}
+
+exports.logs = function (req, res) {
+
+
+
+
+    userActivity.aggregate([
+        {
+            $lookup: {
+                from: "users",
+                localField: "UA",
+                foreignField: "_id",
+                as: "productObjects"
+            }
+        }, {
+            $match: {
+                "productObjects": { $eq: [] }
+            }
+        }
+    ], function (err, users) {
+        if (err) console.log(err);
+        //  console.log(users);
+        res.send(users);
+        // res.render('list', { title: 'All users', userrecords: users });
+    });
 }
